@@ -9,7 +9,7 @@
         /* Définition de la police Black Aroug à partir des fichiers locaux */
         @font-face {
             font-family: 'Black Aroug';
-            /* J'utilise les noms de fichiers exacts que vous avez téléversés */
+            /* Noms de fichiers exacts sur votre dépôt */
             src: url('BlackAroug-DemoVersion-Regular.otf') format('opentype'),
                  url('BlackAroug-DemoVersion-Regular.ttf') format('truetype');
             font-weight: normal;
@@ -35,14 +35,25 @@
         }
 
         h2 {
-            /* Application de la police Black Aroug et couleur blanche */
+            /* Titre Unwritten Tales en Blanc */
             font-family: 'Black Aroug', sans-serif; 
             font-size: 3.5em; 
             font-weight: normal; 
             letter-spacing: 3px; 
-            margin-bottom: 10px;
+            margin-bottom: 5px; /* Réduit la marge pour rapprocher la barre */
             color: #FFFFFF; 
-            text-shadow: 0px 0px 8px rgba(92, 184, 92, 0.7); 
+            text-shadow: 0px 0px 8px rgba(92, 184, 92, 0.7); /* Ombre lumineuse verte subtile */
+        }
+        
+        /* NOUVEAU STYLE : Barre de séparation blanche et arrondie */
+        .title-divider {
+            width: 70%; /* Largeur de la barre */
+            height: 3px; /* Épaisseur de la barre */
+            background-color: #FFFFFF; /* Couleur blanche */
+            margin: 0 auto 20px auto; /* Marge supérieure réduite, marge inférieure de 20px */
+            border-radius: 10px; /* Coins arrondis */
+            /* Ajout d'une ombre lumineuse pour l'effet de brillance */
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.8); 
         }
 
         #chapter {
@@ -82,7 +93,7 @@
 
         #prev-btn, #next-btn {
             padding: 12px 25px;
-            background-color: #8B0000; /* MODIFIÉ : Rouge foncé (Dark Red) */
+            background-color: #8B0000; /* Rouge foncé (Dark Red) */
             color: white;
             border: none;
             border-radius: 5px;
@@ -92,7 +103,7 @@
         }
 
         #prev-btn:hover:not([disabled]), #next-btn:hover:not([disabled]) {
-            background-color: #B22222; /* MODIFIÉ : Rouge légèrement plus clair au survol (Firebrick) */
+            background-color: #B22222; /* Rouge légèrement plus clair au survol (Firebrick) */
         }
 
         #prev-btn:disabled, #next-btn:disabled {
@@ -163,7 +174,7 @@
 
     <div class="container">
         <h2>Unwritten Tales</h2>
-        <select id="chapter">
+        <div class="title-divider"></div> <select id="chapter">
             <option value="chap1">Chapitre 1</option>
             <option value="chap2">Chapitre 2</option>
             <option value="chap3">Chapitre 3</option>
