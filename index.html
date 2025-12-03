@@ -87,14 +87,14 @@
         #image-modal {
             display: none;
             position: fixed;
-            z-index: 9999; /* TRÈS IMPORTANT: Assure que la modale est au-dessus de tout */
-            padding-top: 0px; /* Colle l'image en haut */
+            z-index: 9999; 
+            padding-top: 0px; 
             left: 0;
             top: 0;
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.95); /* Fond plus noir */
+            background-color: rgba(0,0,0,0.95); 
         }
 
         #close-modal {
@@ -117,13 +117,13 @@
         .modal-content {
             margin: auto;
             display: block;
-            width: 90%; 
-            max-width: 90vw; /* Utilise 90% de la largeur du viewport */
-            max-height: 90vh; /* Utilise 90% de la hauteur du viewport */
+            width: 95%; /* MODIFIÉ: Maximisation de la largeur */
+            max-width: 95vw; /* MODIFIÉ: Utilise 95% de la largeur du viewport */
+            max-height: 95vh; /* MODIFIÉ: Utilise 95% de la hauteur du viewport */
             height: auto;
             animation-name: zoom;
             animation-duration: 0.6s;
-            object-fit: contain; /* Assure que l'image est entièrement visible */
+            object-fit: contain; 
         }
 
         @keyframes zoom {
