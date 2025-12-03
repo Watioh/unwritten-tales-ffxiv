@@ -5,9 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unwritten Tales - Lecteur BD</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&display=swap" rel="stylesheet">
-    
     <style>
+        /* Définition de la police Black Aroug à partir des fichiers locaux */
+        @font-face {
+            font-family: 'Black Aroug';
+            /* J'utilise les noms de fichiers exacts que vous avez téléversés */
+            src: url('BlackAroug-DemoVersion-Regular.otf') format('opentype'),
+                 url('BlackAroug-DemoVersion-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         /* Styles de base */
         body {
             font-family: Arial, sans-serif;
@@ -27,13 +35,14 @@
         }
 
         h2 {
-            /* Application de la police pour le titre "Unwritten Tales" */
-            font-family: 'Teko', sans-serif; 
-            font-size: 3em; /* Augmentation de la taille pour la mettre en valeur */
-            font-weight: 700; /* Style gras */
-            letter-spacing: 2px;
+            /* Application de la police Black Aroug et couleur blanche */
+            font-family: 'Black Aroug', sans-serif; 
+            font-size: 3.5em; 
+            font-weight: normal; 
+            letter-spacing: 3px; 
             margin-bottom: 10px;
-            color: #5cb85c; /* Couleur verte pour le titre */
+            color: #FFFFFF; /* CHANGÉ : Couleur blanche */
+            text-shadow: 0px 0px 8px rgba(92, 184, 92, 0.7); /* Ombre lumineuse verte subtile */
         }
 
         #chapter {
@@ -61,7 +70,7 @@
             background-color: #222;
             display: block;
             margin: 0 auto;
-            cursor: pointer; /* Indiquer que l'image est cliquable */
+            cursor: pointer;
         }
 
         #buttons {
@@ -153,7 +162,8 @@
 <body>
 
     <div class="container">
-        <h2>Unwritten Tales</h2> <select id="chapter">
+        <h2>Unwritten Tales</h2>
+        <select id="chapter">
             <option value="chap1">Chapitre 1</option>
             <option value="chap2">Chapitre 2</option>
             <option value="chap3">Chapitre 3</option>
