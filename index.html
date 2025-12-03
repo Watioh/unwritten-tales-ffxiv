@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lecteur BD - Unwritten Tales</title>
+    <title>Unwritten Tales - Lecteur BD</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    
     <style>
         /* Styles de base */
         body {
@@ -24,8 +27,13 @@
         }
 
         h2 {
-            font-size: 2em;
+            /* Application de la police pour le titre "Unwritten Tales" */
+            font-family: 'Teko', sans-serif; 
+            font-size: 3em; /* Augmentation de la taille pour la mettre en valeur */
+            font-weight: 700; /* Style gras */
+            letter-spacing: 2px;
             margin-bottom: 10px;
+            color: #5cb85c; /* Couleur verte pour le titre */
         }
 
         #chapter {
@@ -87,7 +95,7 @@
         #image-modal {
             display: none;
             position: fixed;
-            z-index: 9999; /* TRÈS IMPORTANT */
+            z-index: 9999; 
             padding-top: 0px; 
             left: 0;
             top: 0;
@@ -117,9 +125,9 @@
         .modal-content {
             margin: auto;
             display: block;
-            width: 90%; /* MODIFIÉ: Revenu à 90% */
-            max-width: 90vw; /* MODIFIÉ: Revenu à 90% de la largeur du viewport */
-            max-height: 90vh; /* MODIFIÉ: Revenu à 90% de la hauteur du viewport */
+            width: 90%; 
+            max-width: 90vw; 
+            max-height: 90vh; 
             height: auto;
             animation-name: zoom;
             animation-duration: 0.6s;
@@ -145,8 +153,7 @@
 <body>
 
     <div class="container">
-        <h2>Lecteur BD</h2>
-        <select id="chapter">
+        <h2>Unwritten Tales</h2> <select id="chapter">
             <option value="chap1">Chapitre 1</option>
             <option value="chap2">Chapitre 2</option>
             <option value="chap3">Chapitre 3</option>
