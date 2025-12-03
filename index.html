@@ -4,15 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lecteur BD - Unwritten Tales</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&display=swap" rel="stylesheet">
     <style>
         /* Styles de base */
         body {
             font-family: Arial, sans-serif;
-            /* NOUVEAUX STYLES DE FOND */
+            /* FOND D'ÉCRAN MIS À JOUR */
             background-image: url('https://i.imgur.com/xBLzhCU.png');
-            background-size: cover; /* Couvre toute la zone */
-            background-attachment: fixed; /* Fixe l'image de fond lors du défilement */
-            background-color: #000; /* Couleur de secours */
+            background-size: cover; 
+            background-attachment: fixed; 
+            background-color: #000; 
             
             color: #fff;
             margin: 0;
@@ -30,9 +31,26 @@
         }
 
         h2 {
-            font-size: 2em;
-            margin-bottom: 10px;
+            /* STYLES DU TITRE PERSONNALISÉS */
+            font-family: 'Cinzel', serif; /* Nouvelle police */
+            font-size: 2.5em; /* Taille légèrement augmentée */
+            margin-bottom: 20px; 
+            color: #ffe082; /* Couleur dorée */
+            position: relative; /* Pour positionner la barre */
+            padding-bottom: 10px;
         }
+        
+        /* BARRE SOUS LE TITRE */
+        h2::after {
+            content: '';
+            display: block;
+            width: 100px; /* Largeur de la barre */
+            height: 3px;
+            background: #ffe082; /* Couleur dorée pour la barre */
+            margin: 8px auto 0;
+            border-radius: 2px;
+        }
+
 
         #chapter {
             padding: 10px;
@@ -70,8 +88,9 @@
         }
 
         #prev-btn, #next-btn {
+            /* COULEUR DES BOUTONS RESTAURÉE */
             padding: 12px 25px;
-            background-color: #5cb85c;
+            background-color: #5cb85c; /* Vert */
             color: white;
             border: none;
             border-radius: 5px;
