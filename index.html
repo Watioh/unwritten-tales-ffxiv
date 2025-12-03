@@ -12,7 +12,7 @@
             background-image: url('https://i.imgur.com/xBLzhCU.png');
             background-size: cover; /* Couvre toute la zone */
             background-attachment: fixed; /* Fixe l'image de fond lors du défilement */
-            background-color: #000; /* Couleur de secours si l'image ne charge pas */
+            background-color: #000; /* Couleur de secours */
             
             color: #fff;
             margin: 0;
@@ -24,7 +24,8 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background-color: rgba(26, 26, 26, 0.9); /* LÉGÈREMENT TRANSPARENT pour laisser voir le fond */
+            /* Conteneur semi-transparent pour la lisibilité */
+            background-color: rgba(26, 26, 26, 0.9); 
             border-radius: 10px;
         }
 
@@ -92,7 +93,7 @@
         #image-modal {
             display: none;
             position: fixed;
-            z-index: 9999; /* TRÈS IMPORTANT */
+            z-index: 9999; 
             padding-top: 0px; 
             left: 0;
             top: 0;
