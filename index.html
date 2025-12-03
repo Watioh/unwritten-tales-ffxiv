@@ -3,17 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lecteur BD - Unwritten Tales</title>
+    <title>Unwritten Tales - Lecteur BD</title>
+
     <style>
+        /* Définition de la police Black Aroug à partir des fichiers locaux */
+        @font-face {
+            font-family: 'Black Aroug';
+            /* Noms de fichiers exacts sur votre dépôt (utilisés précédemment) */
+            src: url('BlackAroug-DemoVersion-Regular.otf') format('opentype'),
+                 url('BlackAroug-DemoVersion-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
         /* Styles de base */
         body {
             font-family: Arial, sans-serif;
-            /* NOUVEAUX STYLES DE FOND */
-            background-image: url('https://i.imgur.com/xBLzhCU.png');
-            background-size: cover; /* Couvre toute la zone */
-            background-attachment: fixed; /* Fixe l'image de fond lors du défilement */
-            background-color: #000; /* Couleur de secours si l'image ne charge pas */
-            
+            background-color: #000;
             color: #fff;
             margin: 0;
             padding: 20px;
@@ -24,13 +30,32 @@
             max-width: 900px;
             margin: 0 auto;
             padding: 20px;
-            background-color: rgba(26, 26, 26, 0.9); /* LÉGÈREMENT TRANSPARENT pour laisser voir le fond */
+            background-color: #1a1a1a;
             border-radius: 10px;
         }
 
         h2 {
-            font-size: 2em;
-            margin-bottom: 10px;
+            /* Titre Unwritten Tales en Blanc */
+            font-family: 'Black Aroug', sans-serif; 
+            font-size: 5.313em; /* MODIFIÉ : Agrandit de 10% (4.83em -> 5.313em) */
+            font-weight: normal; 
+            letter-spacing: 3px; 
+            margin-bottom: 5px;
+            color: #FFFFFF; 
+            /* Lueur blanche autour du texte */
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
+                         0 0 20px rgba(255, 255, 255, 0.6); 
+        }
+        
+        /* Barre de séparation blanche et arrondie */
+        .title-divider {
+            width: 65%; /* MODIFIÉ : Réduit de 5% (70% -> 65%) */
+            height: 3px; 
+            background-color: #FFFFFF; 
+            margin: 0 auto 20px auto; 
+            border-radius: 10px; 
+            /* Lueur blanche pour la barre */
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 1); 
         }
 
         #chapter {
@@ -58,7 +83,7 @@
             background-color: #222;
             display: block;
             margin: 0 auto;
-            cursor: pointer; /* Indiquer que l'image est cliquable */
+            cursor: pointer;
         }
 
         #buttons {
@@ -70,7 +95,7 @@
 
         #prev-btn, #next-btn {
             padding: 12px 25px;
-            background-color: #5cb85c;
+            background-color: #8B0000; /* Rouge foncé (Dark Red) */
             color: white;
             border: none;
             border-radius: 5px;
@@ -80,7 +105,7 @@
         }
 
         #prev-btn:hover:not([disabled]), #next-btn:hover:not([disabled]) {
-            background-color: #4cae4c;
+            background-color: #B22222; /* Rouge légèrement plus clair au survol (Firebrick) */
         }
 
         #prev-btn:disabled, #next-btn:disabled {
@@ -92,7 +117,7 @@
         #image-modal {
             display: none;
             position: fixed;
-            z-index: 9999; /* TRÈS IMPORTANT */
+            z-index: 9999; 
             padding-top: 0px; 
             left: 0;
             top: 0;
@@ -150,8 +175,8 @@
 <body>
 
     <div class="container">
-        <h2>Lecteur BD</h2>
-        <select id="chapter">
+        <h2>Unwritten Tales</h2>
+        <div class="title-divider"></div> <select id="chapter">
             <option value="chap1">Chapitre 1</option>
             <option value="chap2">Chapitre 2</option>
             <option value="chap3">Chapitre 3</option>
