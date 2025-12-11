@@ -31,7 +31,8 @@
         }
 
         .container {
-            max-width: 900px;
+            /* Largeur maximale du conteneur principal */
+            max-width: 900px; 
             margin: 0 auto;
             /* Utilisation de la notation abrégée pour padding */
             padding: 0 20px 12px 20px;
@@ -76,8 +77,8 @@
             cursor: pointer;
             font-size: 1em;
             z-index: 6;
-            margin-bottom: 0.5em;
-            margin-right: 10px; 
+            margin-bottom: 0.5em; 
+            margin-right: 0px; 
         }
 
         #page-info {
@@ -87,13 +88,21 @@
             margin-bottom:0.4rem;
         }
 
+        .select-group {
+            display: flex;
+            gap: 10px; 
+            align-items: flex-end;
+        }
+
         .align{ 
             display: flex;
             flex-direction: row;
-            justify-content: center;
+            /* Pousse le contenu aux extrémités (Gauche/Droite) */
+            justify-content: space-between; 
             align-items: flex-end;
-            gap: 14rem ; 
-            margin-bottom: 0px;
+            /* CHANGEMENT CLÉ : Élargit la barre pour coller Page Info plus à droite */
+            max-width: 860px; 
+            margin: 0 auto 0 auto; 
         }
 
         #page {
@@ -104,7 +113,7 @@
             min-height: 200px;
             background-color: #222;
             display: block;
-            margin: 0 auto;
+            margin: 0 auto; 
             cursor: pointer;
         }
 
@@ -118,13 +127,11 @@
 
         /* Classe réutilisable pour les styles de base des boutons (Précédent/Suivant/Redirection) */
         .nav-btn {
-            /* Maintien de la correction de taille */
             min-width: 180px; 
             padding: 12px 3rem; 
-            background-color: #8B0000; /* Rouge foncé (Dark Red) par défaut */
+            background-color: #8B0000; 
             color: white;
             border: none;
-            /* Arrondi uniformisé */
             border-radius: 5px; 
             cursor: pointer;
             font-weight: bold;
@@ -133,7 +140,6 @@
 
 
         #redirect-btn {
-            /* Surcharge de couleur spécifique pour le bouton Carrd */
             min-width: auto; 
             padding: 12px 3rem; 
             background-color: #C68182; 
@@ -142,13 +148,12 @@
         }
 
         .nav-btn:hover:not([disabled]), #redirect-btn:hover {
-            background-color: #B22222 !important; /* Rouge légèrement plus clair au survol */
+            background-color: #B22222 !important; 
         }
 
         .nav-btn:disabled {
             background-color: #444;
             cursor: not-allowed;
-            /* Ajout de la règle pour s'assurer que l'arrondi n'est pas perdu ou modifié */
             border-radius: 5px; 
         }
 
@@ -217,13 +222,15 @@
         <h2>Unwritten Tales</h2>
         <div class="title-divider"></div> 
         <div class="align">
-            <select id="tome-select">
-            </select>
+            <div class="select-group"> 
+                <select id="tome-select">
+                </select>
 
-            <select id="chapter">
-            </select>
+                <select id="chapter">
+                </select>
+            </div>
 
-            <p id="page-info">Page 0 / 0</p>
+            <p id="page-info">Page 0 / 0</p> 
         </div>
         <div>
             <img id="page" src="" alt="Page de la bande dessinée">
@@ -244,12 +251,11 @@
 
     <script>
         // --- STRUCTURE DE DONNÉES : tomes contient des chapitres ---
-        // ATTENTION : L'ordre des propriétés dans cet objet détermine l'ordre d'affichage dans le sélecteur.
         const tomes = {
-            "before-the-blizzard": { // <-- Tome "Before the blizzard" (maintenant en premier)
+            "before-the-blizzard": { 
                 name: "Before the blizzard", 
                 chapters: {
-                    1: { // <-- Chapitre 1 avec les pages fournies
+                    1: { 
                         name: "Chapitre 1", 
                         pages: [
                             "https://i.imgur.com/ewGwyID.png",
