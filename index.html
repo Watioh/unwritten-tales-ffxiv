@@ -244,7 +244,36 @@
 
     <script>
         // --- STRUCTURE DE DONNÉES : tomes contient des chapitres ---
+        // ATTENTION : L'ordre des propriétés dans cet objet détermine l'ordre d'affichage dans le sélecteur.
         const tomes = {
+            "before-the-blizzard": { // <-- Tome "Before the blizzard" (maintenant en premier)
+                name: "Before the blizzard", 
+                chapters: {
+                    1: { // <-- Chapitre 1 avec les pages fournies
+                        name: "Chapitre 1", 
+                        pages: [
+                            "https://i.imgur.com/ewGwyID.png",
+                            "https://i.imgur.com/gsSfjFk.png",
+                            "https://i.imgur.com/69GS82v.png",
+                            "https://i.imgur.com/VdvTYvo.png",
+                            "https://i.imgur.com/53yXM5o.png",
+                            "https://i.imgur.com/XnV6bd6.png",
+                            "https://i.imgur.com/iAtsktj.png",
+                            "https://i.imgur.com/rH508i9.png",
+                            "https://i.imgur.com/8AsVepq.png",
+                            "https://i.imgur.com/s8tV91i.png",
+                            "https://i.imgur.com/Qhg6LxD.png",
+                            "https://i.imgur.com/dkdliIX.png",
+                            "https://i.imgur.com/M0BzLB3.png",
+                            "https://i.imgur.com/BRph5bM.png",
+                            "https://i.imgur.com/MupHgly.png",
+                            "https://i.imgur.com/lg1dTRF.png",
+                            "https://i.imgur.com/7o8uXZ9.png",
+                            "https://i.imgur.com/pcDUvu9.png"
+                        ]
+                    }
+                }
+            },
             "shadowbringer": {
                 name: "Shadowbringer", 
                 chapters: {
@@ -378,7 +407,15 @@
             DOM.chapterSelect.innerHTML = ''; 
 
             const chapters = tomes[currentTomeKey]?.chapters;
-            if (!chapters) return; 
+            if (!chapters || Object.keys(chapters).length === 0) {
+                 // Gérer le cas où il n'y a pas de chapitres pour ce tome
+                DOM.chapterSelect.innerHTML = '<option value="">Pas de chapitres</option>';
+                DOM.chapterSelect.disabled = true;
+                loadChapter(""); 
+                return;
+            } else {
+                DOM.chapterSelect.disabled = false;
+            }
 
             // 2. Ajouter les nouvelles options
             for (const key in chapters) {
@@ -401,7 +438,8 @@
                 DOM.nextBtn.disabled = currentPageIndex === totalPages - 1;
             } else {
                 DOM.img.src = "";
-                DOM.img.alt = "Aucune page disponible";
+                // Mettre un alt générique si le chapitre est vide
+                DOM.img.alt = tomes[currentTomeKey] ? `Tome : ${tomes[currentTomeKey].name}, Aucune page disponible` : "Aucune page disponible"; 
                 DOM.pageInfo.textContent = "Page 0 / 0";
                 DOM.prevBtn.disabled = true;
                 DOM.nextBtn.disabled = true;
@@ -451,7 +489,8 @@
 
             // Gestion du Modal
             DOM.img.addEventListener("click", () => {
-                if (DOM.img.src && DOM.img.alt !== "Page de la bande dessinée") { 
+                // Vérifier si une image est bien chargée (src non vide et alt n'est pas la valeur par défaut)
+                if (DOM.img.src && DOM.img.alt !== "Page de la bande dessinée" && !DOM.img.alt.includes("Aucune page disponible")) { 
                     DOM.modal.style.display = "block";
                     DOM.modalImg.src = DOM.img.src;
                     DOM.captionText.innerHTML = DOM.img.alt;
