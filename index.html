@@ -6,10 +6,9 @@
     <title>Unwritten Tales - Lecteur BD</title>
 
     <style>
-        /* Définition de la police Black Aroug à partir des fichiers locaux */
+        /* Définition de la police Black Aroug */
         @font-face {
             font-family: 'Black Aroug';
-            /* Noms de fichiers exacts sur votre dépôt */
             src: url('BlackAroug-DemoVersion-Regular.otf') format('opentype'),
                 url('BlackAroug-DemoVersion-Regular.ttf') format('truetype');
             font-weight: normal;
@@ -19,7 +18,6 @@
         /* Styles de base */
         body {
             font-family: Arial, sans-serif;
-            /* Arrière-plan image */
             background-image: url('https://i.imgur.com/xBLzhCU.png'); 
             background-size: cover; 
             background-attachment: fixed; 
@@ -31,12 +29,9 @@
         }
 
         .container {
-            /* Largeur maximale du conteneur principal */
             max-width: 900px; 
             margin: 0 auto;
-            /* Utilisation de la notation abrégée pour padding */
             padding: 0 20px 12px 20px;
-            
             background-color: #1a1a1ad6;
             border-radius: 10px;
             border: 2px solid #8B0000; 
@@ -50,24 +45,20 @@
             letter-spacing: 3px; 
             margin-bottom: -10px;
             color: #FFFFFF; 
-            /* Lueur blanche autour du texte */
             text-shadow: 0 0 10px rgba(255, 255, 255, 0.9),
                          0 0 20px rgba(255, 255, 255, 0.6); 
             margin-top: 20px;
         }
         
-        /* Barre de séparation blanche et arrondie */
         .title-divider {
             width: 65%; 
             height: 3px; 
             background-color: #FFFFFF; 
             margin: 0 auto 20px auto; 
             border-radius: 10px; 
-            /* Lueur blanche pour la barre */
             box-shadow: 0px 0px 10px rgba(255, 255, 255, 1); 
         }
 
-        /* Style commun aux sélecteurs (Tome et Chapitre) */
         #chapter, #tome-select {
             padding: 10px;
             border-radius: 5px;
@@ -78,7 +69,6 @@
             font-size: 1em;
             z-index: 6;
             margin-bottom: 0.5em; 
-            margin-right: 0px; 
         }
 
         #page-info {
@@ -97,12 +87,10 @@
         .align{ 
             display: flex;
             flex-direction: row;
-            /* Pousse le contenu aux extrémités (Gauche/Droite) */
             justify-content: space-between; 
             align-items: flex-end;
-            /* CHANGEMENT CLÉ : Élargit la barre pour coller Page Info plus à droite */
             max-width: 860px; 
-            margin: 0 auto 0 auto; 
+            margin: 0 auto; 
         }
 
         #page {
@@ -122,10 +110,8 @@
             display: flex;
             justify-content: center;
             gap: 15px;
-
         }
 
-        /* Classe réutilisable pour les styles de base des boutons (Précédent/Suivant/Redirection) */
         .nav-btn {
             min-width: 180px; 
             padding: 12px 3rem; 
@@ -138,13 +124,11 @@
             transition: background-color 0.2s;
         }
 
-
         #redirect-btn {
             min-width: auto; 
             padding: 12px 3rem; 
             background-color: #C68182; 
             margin-top: 5px;
-            margin-bottom: 0px;
         }
 
         .nav-btn:hover:not([disabled]), #redirect-btn:hover {
@@ -154,15 +138,12 @@
         .nav-btn:disabled {
             background-color: #444;
             cursor: not-allowed;
-            border-radius: 5px; 
         }
 
-        /* Styles pour la modale (Image en plein écran) */
         #image-modal {
             display: none;
             position: fixed;
             z-index: 9999; 
-            padding-top: 0px; 
             left: 0;
             top: 0;
             width: 100%;
@@ -178,13 +159,6 @@
             color: #f1f1f1;
             font-size: 40px;
             font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-
-        #close-modal:hover, #close-modal:focus {
-            color: #bbb;
-            text-decoration: none;
             cursor: pointer;
         }
 
@@ -194,25 +168,13 @@
             width: 90%; 
             max-width: 90vw; 
             max-height: 90vh; 
-            height: auto;
-            animation-name: zoom;
-            animation-duration: 0.6s;
             object-fit: contain; 
+            animation: zoom 0.6s;
         }
 
         @keyframes zoom {
             from {transform:scale(0)} 
             to {transform:scale(1)}
-        }
-        
-        #caption-full {
-            margin: 15px auto;
-            display: block;
-            width: 80%;
-            max-width: 700px;
-            text-align: center;
-            color: #ccc;
-            padding: 10px 0;
         }
     </style>
 </head>
@@ -223,13 +185,9 @@
         <div class="title-divider"></div> 
         <div class="align">
             <div class="select-group"> 
-                <select id="tome-select">
-                </select>
-
-                <select id="chapter">
-                </select>
+                <select id="tome-select"></select>
+                <select id="chapter"></select>
             </div>
-
             <p id="page-info">Page 0 / 0</p> 
         </div>
         <div>
@@ -250,7 +208,7 @@
     </div>
 
     <script>
-        // --- STRUCTURE DE DONNÉES : tomes contient des chapitres ---
+        // --- STRUCTURE DE DONNÉES ---
         const tomes = {
             "before-the-blizzard": { 
                 name: "Before the blizzard", 
@@ -258,26 +216,27 @@
                     1: { 
                         name: "Chapitre 1", 
                         pages: [
-                            "https://i.imgur.com/ewGwyID.png",
-                            "https://i.imgur.com/gsSfjFk.png",
-                            "https://i.imgur.com/69GS82v.png",
-                            "https://i.imgur.com/VdvTYvo.png",
-                            "https://i.imgur.com/53yXM5o.png",
-                            "https://i.imgur.com/XnV6bd6.png",
-                            "https://i.imgur.com/iAtsktj.png",
-                            "https://i.imgur.com/rH508i9.png",
-                            "https://i.imgur.com/8AsVepq.png",
-                            "https://i.imgur.com/s8tV91i.png",
-                            "https://i.imgur.com/Qhg6LxD.png",
-                            "https://i.imgur.com/dkdliIX.png",
-                            "https://i.imgur.com/M0BzLB3.png",
-                            "https://i.imgur.com/BRph5bM.png",
-                            "https://i.imgur.com/MupHgly.png",
-                            "https://i.imgur.com/lg1dTRF.png",
-                            "https://i.imgur.com/7o8uXZ9.png",
-                            "https://i.imgur.com/pcDUvu9.png"
+                            "https://i.imgur.com/ewGwyID.png", "https://i.imgur.com/gsSfjFk.png", "https://i.imgur.com/69GS82v.png", "https://i.imgur.com/VdvTYvo.png", "https://i.imgur.com/53yXM5o.png", "https://i.imgur.com/XnV6bd6.png", "https://i.imgur.com/iAtsktj.png", "https://i.imgur.com/rH508i9.png", "https://i.imgur.com/8AsVepq.png", "https://i.imgur.com/s8tV91i.png", "https://i.imgur.com/Qhg6LxD.png", "https://i.imgur.com/dkdliIX.png", "https://i.imgur.com/M0BzLB3.png", "https://i.imgur.com/BRph5bM.png", "https://i.imgur.com/MupHgly.png", "https://i.imgur.com/lg1dTRF.png", "https://i.imgur.com/7o8uXZ9.png", "https://i.imgur.com/pcDUvu9.png"
                         ]
                     }
+                }
+            },
+            "a-realm-reborn": {
+                name: "A Realm Reborn",
+                chapters: {
+                    1: { name: "Chapitre 1", pages: [] }
+                }
+            },
+            "heavensward": {
+                name: "Heavensward",
+                chapters: {
+                    1: { name: "Chapitre 1", pages: [] }
+                }
+            },
+            "stormblood": {
+                name: "Stormblood",
+                chapters: {
+                    1: { name: "Chapitre 1", pages: [] }
                 }
             },
             "shadowbringer": {
@@ -285,82 +244,37 @@
                 chapters: {
                     1: {
                         name: "Chapitre 1", 
-                        pages: [
-                            "https://i.imgur.com/0UNHl1a.png",
-                            "https://i.imgur.com/84OHQMM.png",
-                            "https://i.imgur.com/qrCB5R6.png",
-                            "https://i.imgur.com/Nhbccgj.png",
-                            "https://i.imgur.com/rCEL2QH.png",
-                            "https://i.imgur.com/6LdfBzs.png",
-                            "https://i.imgur.com/ryE2mWw.png",
-                            "https://i.imgur.com/RR7lXn7.png",
-                            "https://i.imgur.com/7rUoApX.png",
-                            "https://i.imgur.com/Zq8UWbI.png",
-                            "https://i.imgur.com/yrW1y4p.png",
-                            "https://i.imgur.com/0dgnbvZ.png",
-                            "https://i.imgur.com/IcOeYq6.png",
-                            "https://i.imgur.com/mX9BMDh.png"
-                        ]
+                        pages: ["https://i.imgur.com/0UNHl1a.png", "https://i.imgur.com/84OHQMM.png", "https://i.imgur.com/qrCB5R6.png", "https://i.imgur.com/Nhbccgj.png", "https://i.imgur.com/rCEL2QH.png", "https://i.imgur.com/6LdfBzs.png", "https://i.imgur.com/ryE2mWw.png", "https://i.imgur.com/RR7lXn7.png", "https://i.imgur.com/7rUoApX.png", "https://i.imgur.com/Zq8UWbI.png", "https://i.imgur.com/yrW1y4p.png", "https://i.imgur.com/0dgnbvZ.png", "https://i.imgur.com/IcOeYq6.png", "https://i.imgur.com/mX9BMDh.png"]
                     },
                     2: {
                         name: "Chapitre 2",
-                        pages: [
-                            "https://i.imgur.com/bSwLhWW.png",
-                            "https://i.imgur.com/tDpoBMZ.png",
-                            "https://i.imgur.com/3AoNX7n.png",
-                            "https://i.imgur.com/W1ksv6d.png",
-                            "https://i.imgur.com/J2kRcBG.png",
-                            "https://i.imgur.com/91mesK9.png",
-                            "https://i.imgur.com/kJeDYZa.png",
-                            "https://i.imgur.com/vQatVkB.png",
-                            "https://i.imgur.com/5pmvOV8.png",
-                            "https://i.imgur.com/OR8BTVX.png",
-                            "https://i.imgur.com/V2FivjT.png",
-                            "https://i.imgur.com/D7MmvtA.png",
-                            "https://i.imgur.com/X0KMBQk.png",
-                            "https://i.imgur.com/aVv98at.png",
-                            "https://i.imgur.com/cwfTDTc.png"
-                        ]
+                        pages: ["https://i.imgur.com/bSwLhWW.png", "https://i.imgur.com/tDpoBMZ.png", "https://i.imgur.com/3AoNX7n.png", "https://i.imgur.com/W1ksv6d.png", "https://i.imgur.com/J2kRcBG.png", "https://i.imgur.com/91mesK9.png", "https://i.imgur.com/kJeDYZa.png", "https://i.imgur.com/vQatVkB.png", "https://i.imgur.com/5pmvOV8.png", "https://i.imgur.com/OR8BTVX.png", "https://i.imgur.com/V2FivjT.png", "https://i.imgur.com/D7MmvtA.png", "https://i.imgur.com/X0KMBQk.png", "https://i.imgur.com/aVv98at.png", "https://i.imgur.com/cwfTDTc.png"]
                     },
                     3: {
                         name: "Chapitre 3",
-                        pages: [
-                            "https://i.imgur.com/9IgnOGv.jpeg",
-                            "https://i.imgur.com/U5BKdFF.png",
-                            "https://i.imgur.com/z2LgHIc.png",
-                            "https://i.imgur.com/aanENlF.png",
-                            "https://i.imgur.com/qvzZNTq.png",
-                            "https://i.imgur.com/N36SGef.png",
-                            "https://i.imgur.com/LcZGYoE.png",
-                            "https://i.imgur.com/3JE2ms3.png",
-                            "https://i.imgur.com/UhCnYGC.png",
-                            "https://i.imgur.com/86gI24z.png",
-                            "https://i.imgur.com/mbr7bIQ.png"
-                        ]
+                        pages: ["https://i.imgur.com/9IgnOGv.jpeg", "https://i.imgur.com/U5BKdFF.png", "https://i.imgur.com/z2LgHIc.png", "https://i.imgur.com/aanENlF.png", "https://i.imgur.com/qvzZNTq.png", "https://i.imgur.com/N36SGef.png", "https://i.imgur.com/LcZGYoE.png", "https://i.imgur.com/3JE2ms3.png", "https://i.imgur.com/UhCnYGC.png", "https://i.imgur.com/86gI24z.png", "https://i.imgur.com/mbr7bIQ.png"]
                     },
                     4: {
                         name: "Chapitre 4",
-                        pages: [
-                            "https://i.imgur.com/kzWrhhl.png",
-                            "https://i.imgur.com/WgljjNE.png",
-                            "https://i.imgur.com/CZWNIsZ.png",
-                            "https://i.imgur.com/I6Z5mpg.png",
-                            "https://i.imgur.com/EyIq4y9.png",
-                            "https://i.imgur.com/dH6OxSX.png",
-                            "https://i.imgur.com/AvgQ4De.png",
-                            "https://i.imgur.com/EguXrNX.png",
-                            "https://i.imgur.com/iCx58SS.png",
-                            "https://i.imgur.com/v875nwQ.png",
-                            "https://i.imgur.com/OnktZl4.png",
-                            "https://i.imgur.com/GxpCakI.png",
-                            "https://i.imgur.com/MTL7KTs.png"
-                        ]
+                        pages: ["https://i.imgur.com/kzWrhhl.png", "https://i.imgur.com/WgljjNE.png", "https://i.imgur.com/CZWNIsZ.png", "https://i.imgur.com/I6Z5mpg.png", "https://i.imgur.com/EyIq4y9.png", "https://i.imgur.com/dH6OxSX.png", "https://i.imgur.com/AvgQ4De.png", "https://i.imgur.com/EguXrNX.png", "https://i.imgur.com/iCx58SS.png", "https://i.imgur.com/v875nwQ.png", "https://i.imgur.com/OnktZl4.png", "https://i.imgur.com/GxpCakI.png", "https://i.imgur.com/MTL7KTs.png"]
                     }
+                }
+            },
+            "endwalker": {
+                name: "Endwalker",
+                chapters: {
+                    1: { name: "Chapitre 1", pages: [] }
+                }
+            },
+            "dawntrail": {
+                name: "Dawntrail",
+                chapters: {
+                    1: { name: "Chapitre 1", pages: [] }
                 }
             }
         };
         
-        // --- RÉFÉRENCES DOM CENTRALISÉES ---
+        // --- LOGIQUE DU LECTEUR ---
         const DOM = {
             tomeSelect: document.getElementById("tome-select"),
             chapterSelect: document.getElementById("chapter"),
@@ -374,184 +288,77 @@
             closeModal: document.getElementById("close-modal")
         };
 
+        let currentTomeKey, currentChapterKey, currentPageIndex = 0;
 
-        let currentTomeKey;
-        let currentChapterKey;
-        let currentPageIndex = 0;
-
-        // --- FONCTIONS UTILITAIRES ---
-
-        /** Retourne l'objet chapitre actuellement sélectionné. */
-        function getCurrentChapter() {
-            return tomes[currentTomeKey]?.chapters[currentChapterKey];
-        }
+        function getCurrentChapter() { return tomes[currentTomeKey]?.chapters[currentChapterKey]; }
         
-        /** Crée une option et l'ajoute à un sélecteur. */
         function appendOption(selectElement, value, text) {
             const option = document.createElement('option');
-            option.value = value;
-            option.textContent = text;
+            option.value = value; option.textContent = text;
             selectElement.appendChild(option);
         }
 
-        // --- FONCTIONS DE LOGIQUE PRINCIPALE ---
-
         function initTomeSelect() {
-            // 1. Initialiser le sélecteur de tome
-            for (const key in tomes) {
-                appendOption(DOM.tomeSelect, key, tomes[key].name);
-            }
-            
-            // Définir le tome par défaut
+            for (const key in tomes) { appendOption(DOM.tomeSelect, key, tomes[key].name); }
             currentTomeKey = DOM.tomeSelect.value;
-            // 2. Mettre à jour les options de chapitre pour le premier tome
             updateChapterOptions();
         }
 
         function updateChapterOptions() {
-            // 1. Vider les anciennes options de chapitre
             DOM.chapterSelect.innerHTML = ''; 
-
             const chapters = tomes[currentTomeKey]?.chapters;
             if (!chapters || Object.keys(chapters).length === 0) {
-                 // Gérer le cas où il n'y a pas de chapitres pour ce tome
                 DOM.chapterSelect.innerHTML = '<option value="">Pas de chapitres</option>';
                 DOM.chapterSelect.disabled = true;
-                loadChapter(""); 
-                return;
-            } else {
-                DOM.chapterSelect.disabled = false;
+                loadChapter(""); return;
             }
-
-            // 2. Ajouter les nouvelles options
-            for (const key in chapters) {
-                appendOption(DOM.chapterSelect, key, chapters[key].name);
-            }
-            // 3. Charger le premier chapitre du nouveau tome/chapitre
+            DOM.chapterSelect.disabled = false;
+            for (const key in chapters) { appendOption(DOM.chapterSelect, key, chapters[key].name); }
             loadChapter(DOM.chapterSelect.value); 
         }
 
         function updateReader() {
             const chapter = getCurrentChapter(); 
             const totalPages = chapter ? chapter.pages.length : 0; 
-
             if (totalPages > 0) {
                 DOM.img.src = chapter.pages[currentPageIndex];
                 DOM.img.alt = `Tome : ${tomes[currentTomeKey].name}, Chapitre : ${chapter.name}, Page : ${currentPageIndex + 1}`;
                 DOM.pageInfo.textContent = `Page ${currentPageIndex + 1} / ${totalPages}`;
-
-                DOM.prevBtn.disabled = currentPageIndex === 0;
-                DOM.nextBtn.disabled = currentPageIndex === totalPages - 1;
+                DOM.prevBtn.disabled = (currentPageIndex === 0);
+                DOM.nextBtn.disabled = (currentPageIndex === totalPages - 1);
             } else {
-                DOM.img.src = "";
-                // Mettre un alt générique si le chapitre est vide
-                DOM.img.alt = tomes[currentTomeKey] ? `Tome : ${tomes[currentTomeKey].name}, Aucune page disponible` : "Aucune page disponible"; 
-                DOM.pageInfo.textContent = "Page 0 / 0";
-                DOM.prevBtn.disabled = true;
-                DOM.nextBtn.disabled = true;
+                DOM.img.src = ""; DOM.pageInfo.textContent = "Page 0 / 0";
+                DOM.prevBtn.disabled = DOM.nextBtn.disabled = true;
             }
         }
 
-        function loadChapter(ch) {
-            currentChapterKey = ch;
-            currentPageIndex = 0;
-            updateReader();
-        }
-        
-        function goPrevious() {
-            const chapter = getCurrentChapter();
-            if (chapter && currentPageIndex > 0) {
-                currentPageIndex--;
-                updateReader();
-                return true;
-            }
-            return false;
-        }
-        
-        function goNext() {
-            const chapter = getCurrentChapter();
-            if (chapter && currentPageIndex < chapter.pages.length - 1) {
-                currentPageIndex++;
-                updateReader();
-                return true;
-            }
-            return false;
-        }
-
-        // --- GESTION DES ÉVÉNEMENTS ---
+        function loadChapter(ch) { currentChapterKey = ch; currentPageIndex = 0; updateReader(); }
+        function goPrevious() { if (currentPageIndex > 0) { currentPageIndex--; updateReader(); return true; } return false; }
+        function goNext() { const c = getCurrentChapter(); if (c && currentPageIndex < c.pages.length - 1) { currentPageIndex++; updateReader(); return true; } return false; }
 
         function setupEventListeners() {
-            // Changements de sélecteurs
-            DOM.tomeSelect.addEventListener("change", (event) => {
-                currentTomeKey = event.target.value;
-                updateChapterOptions(); 
-            });
-
-            DOM.chapterSelect.addEventListener("change", (event) => loadChapter(event.target.value));
-
-            // Navigation par boutons
+            DOM.tomeSelect.addEventListener("change", (e) => { currentTomeKey = e.target.value; updateChapterOptions(); });
+            DOM.chapterSelect.addEventListener("change", (e) => loadChapter(e.target.value));
             DOM.prevBtn.addEventListener("click", goPrevious);
             DOM.nextBtn.addEventListener("click", goNext);
-
-            // Gestion du Modal
             DOM.img.addEventListener("click", () => {
-                // Vérifier si une image est bien chargée (src non vide et alt n'est pas la valeur par défaut)
-                if (DOM.img.src && DOM.img.alt !== "Page de la bande dessinée" && !DOM.img.alt.includes("Aucune page disponible")) { 
-                    DOM.modal.style.display = "block";
-                    DOM.modalImg.src = DOM.img.src;
+                if (DOM.img.src) {
+                    DOM.modal.style.display = "block"; DOM.modalImg.src = DOM.img.src;
                     DOM.captionText.innerHTML = DOM.img.alt;
                 }
             });
-
-            DOM.closeModal.addEventListener("click", () => {
-                DOM.modal.style.display = "none";
-            });
-
-            window.addEventListener("click", (event) => {
-                if (event.target == DOM.modal) {
-                    DOM.modal.style.display = "none";
-                }
-            });
-
-            // Navigation clavier
-            document.addEventListener("keydown", (event) => {
-                let navigated = false;
-
-                // 1. Fermeture du Modal avec ESC
-                if (event.key === "Escape" && DOM.modal.style.display === "block") {
-                    DOM.modal.style.display = "none";
-                    return;
-                }
-                
-                // 2. Ignorer les flèches si on utilise un sélecteur
-                if (event.target.tagName === 'SELECT') {
-                    return;
-                }
-
-                // 3. Navigation
-                if (event.key === "ArrowLeft") {
-                    navigated = goPrevious();
-                } else if (event.key === "ArrowRight") {
-                    navigated = goNext();
-                }
-
-                // 4. Mise à jour du Modal si la navigation a réussi ET que le Modal est ouvert
-                if (navigated && DOM.modal.style.display === "block") {
-                    DOM.modalImg.src = DOM.img.src;
-                    DOM.captionText.innerHTML = DOM.img.alt;
-                }
+            DOM.closeModal.addEventListener("click", () => DOM.modal.style.display = "none");
+            window.addEventListener("click", (e) => { if (e.target == DOM.modal) DOM.modal.style.display = "none"; });
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "Escape") DOM.modal.style.display = "none";
+                if (e.target.tagName === 'SELECT') return;
+                if (e.key === "ArrowLeft") goPrevious();
+                if (e.key === "ArrowRight") goNext();
             });
         }
 
-        // --- INITIALISATION ---
-
-        function initReader() {
-            initTomeSelect(); 
-            setupEventListeners();
-        }
-
-        initReader();
+        initTomeSelect();
+        setupEventListeners();
     </script>
-
 </body>
 </html>
