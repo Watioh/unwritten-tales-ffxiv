@@ -140,6 +140,7 @@
             cursor: not-allowed;
         }
 
+        /* --- STYLES DU MODAL (GROS PLAN) --- */
         #image-modal {
             display: none;
             position: fixed;
@@ -148,7 +149,7 @@
             top: 0;
             width: 100%;
             height: 100%;
-            overflow: auto;
+            overflow: hidden;
             background-color: rgba(0,0,0,0.95); 
         }
 
@@ -160,21 +161,62 @@
             font-size: 40px;
             font-weight: bold;
             cursor: pointer;
+            z-index: 10001;
         }
 
         .modal-content {
             margin: auto;
             display: block;
-            width: 90%; 
+            width: auto;
+            height: auto;
             max-width: 90vw; 
             max-height: 90vh; 
             object-fit: contain; 
-            animation: zoom 0.6s;
+            animation: zoom 0.3s;
+            cursor: pointer; /* Indique qu'on peut cliquer pour suivant */
+        }
+
+        /* Flèches de navigation dans le modal */
+        .modal-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            color: white;
+            font-size: 60px;
+            font-weight: bold;
+            padding: 20px;
+            cursor: pointer;
+            user-select: none;
+            transition: 0.3s;
+            background: rgba(0,0,0,0.2);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .modal-arrow:hover {
+            background: rgba(139, 0, 0, 0.8);
+        }
+
+        #modal-prev { left: 20px; }
+        #modal-next { right: 20px; }
+
+        #caption-full {
+            margin: auto;
+            display: block;
+            width: 80%;
+            text-align: center;
+            color: #ccc;
+            padding: 10px 0;
         }
 
         @keyframes zoom {
-            from {transform:scale(0)} 
-            to {transform:scale(1)}
+            from {transform:scale(0.8); opacity: 0;} 
+            to {transform:scale(1); opacity: 1;}
         }
     </style>
 </head>
@@ -203,7 +245,13 @@
     
     <div id="image-modal">
         <span id="close-modal">&times;</span>
-        <img class="modal-content" id="img-full">
+        
+        <div id="modal-prev" class="modal-arrow">&#10094;</div>
+        
+        <img class="modal-content" id="img-full" title="Cliquez pour la page suivante">
+        
+        <div id="modal-next" class="modal-arrow">&#10095;</div>
+        
         <div id="caption-full"></div>
     </div>
 
@@ -284,6 +332,8 @@
             nextBtn: document.getElementById("next-btn"),
             modal: document.getElementById("image-modal"),
             modalImg: document.getElementById("img-full"),
+            modalPrev: document.getElementById("modal-prev"),
+            modalNext: document.getElementById("modal-next"),
             captionText: document.getElementById("caption-full"),
             closeModal: document.getElementById("close-modal")
         };
@@ -321,9 +371,20 @@
             const chapter = getCurrentChapter(); 
             const totalPages = chapter ? chapter.pages.length : 0; 
             if (totalPages > 0) {
-                DOM.img.src = chapter.pages[currentPageIndex];
-                DOM.img.alt = `Tome : ${tomes[currentTomeKey].name}, Chapitre : ${chapter.name}, Page : ${currentPageIndex + 1}`;
+                const imgSrc = chapter.pages[currentPageIndex];
+                const imgAlt = `Tome : ${tomes[currentTomeKey].name}, Chapitre : ${chapter.name}, Page : ${currentPageIndex + 1}`;
+                
+                // Update Main Image
+                DOM.img.src = imgSrc;
+                DOM.img.alt = imgAlt;
                 DOM.pageInfo.textContent = `Page ${currentPageIndex + 1} / ${totalPages}`;
+                
+                // Update Modal Image if it's open
+                if (DOM.modal.style.display === "block") {
+                    DOM.modalImg.src = imgSrc;
+                    DOM.captionText.innerHTML = imgAlt;
+                }
+
                 DOM.prevBtn.disabled = (currentPageIndex === 0);
                 DOM.nextBtn.disabled = (currentPageIndex === totalPages - 1);
             } else {
@@ -339,16 +400,41 @@
         function setupEventListeners() {
             DOM.tomeSelect.addEventListener("change", (e) => { currentTomeKey = e.target.value; updateChapterOptions(); });
             DOM.chapterSelect.addEventListener("change", (e) => loadChapter(e.target.value));
+            
+            // Navigation boutons principaux
             DOM.prevBtn.addEventListener("click", goPrevious);
             DOM.nextBtn.addEventListener("click", goNext);
+            
+            // Ouvrir le modal
             DOM.img.addEventListener("click", () => {
                 if (DOM.img.src) {
-                    DOM.modal.style.display = "block"; DOM.modalImg.src = DOM.img.src;
-                    DOM.captionText.innerHTML = DOM.img.alt;
+                    DOM.modal.style.display = "block";
+                    updateReader(); // S'assure que le modal est à jour
                 }
             });
+
+            // Navigation dans le modal
+            DOM.modalPrev.addEventListener("click", (e) => {
+                e.stopPropagation(); // Évite de fermer le modal si on clique sur la flèche
+                goPrevious();
+            });
+            DOM.modalNext.addEventListener("click", (e) => {
+                e.stopPropagation();
+                goNext();
+            });
+            DOM.modalImg.addEventListener("click", (e) => {
+                e.stopPropagation();
+                if(!goNext()) {
+                    // Si on est à la dernière page, on peut éventuellement fermer le modal
+                    // DOM.modal.style.display = "none"; 
+                }
+            });
+
+            // Fermer le modal
             DOM.closeModal.addEventListener("click", () => DOM.modal.style.display = "none");
             window.addEventListener("click", (e) => { if (e.target == DOM.modal) DOM.modal.style.display = "none"; });
+            
+            // Touches clavier
             document.addEventListener("keydown", (e) => {
                 if (e.key === "Escape") DOM.modal.style.display = "none";
                 if (e.target.tagName === 'SELECT') return;
